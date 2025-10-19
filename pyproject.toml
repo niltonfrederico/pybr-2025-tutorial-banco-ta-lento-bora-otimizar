@@ -1,0 +1,26 @@
+[project]
+name = "pybr-2025-tutorial-banco-ta-lento-bora-otimizar"
+version = "0.1.0"
+description = "Tutorial sobre banco de dados apresentado na Python Brasil em São Paulo/SP em 2025"
+authors = [
+    { name = "Nilton Teixeira", email = "9078708+niltonfrederico@users.noreply.github.com" },
+]
+license = { text = "The Unliscense" }
+readme = "README.md"
+requires-python = ">=3.13"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+django = "^5.2.7"
+psycopg = "^3.2.11"
+django-postgres-extra = "^2.0.9"
+
+[tool.poetry.group.dev.dependencies]
+ipdb = "^0.13.13"
+django-debug-toolbar = "^6.0.0"
