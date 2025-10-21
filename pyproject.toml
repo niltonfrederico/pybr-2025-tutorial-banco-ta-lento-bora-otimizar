@@ -24,3 +24,172 @@ django-postgres-extra = "^2.0.9"
 [tool.poetry.group.dev.dependencies]
 ipdb = "^0.13.13"
 django-debug-toolbar = "^6.0.0"
+mypy = "^1.18.2"
+pre-commit = "^4.3.0"
+ruff = "^0.14.1"
+django-stubs = "^5.2.7"
+djangorestframework-stubs = "^3.16.4"
+
+
+[tool.ruff]
+target-version = "py313"
+line-length = 120
+indent-width = 4
+src = ["tutorial"]
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "migrations",
+]
+
+[tool.ruff.lint]
+# Enable a large set of rules for stricter linting
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "C90", # mccabe
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "A",   # flake8-builtins
+    "C4",  # flake8-comprehensions
+    "DTZ", # flake8-datetimez
+    "T10", # flake8-debugger
+    "EXE", # flake8-executable
+    "ISC", # flake8-implicit-str-concat
+    "G",   # flake8-logging-format
+    "PIE", # flake8-pie
+    "PT",  # flake8-pytest-style
+    "Q",   # flake8-quotes
+    "RET", # flake8-return
+    "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+    "ARG", # flake8-unused-arguments
+    "ERA", # eradicate
+    "PL",  # pylint
+    "RUF", # ruff-specific
+    "S",   # flake8-bandit (security)
+]
+
+# Specifically ignore certain rules
+ignore = [
+    "D203",   # one-blank-line-before-class (incompatible with D211)
+    "D213",   # multi-line-summary-second-line (incompatible with D212)
+    "ISC001", # conflicts with formatter
+]
+
+# Rules that are automatically fixed when running `ruff --fix`
+fixable = ["ALL"]
+unfixable = ["F401", "F841"] # Don't auto-fix unused imports or variables
+
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"] # Ignore unused imports in __init__.py files
+"test_*.py" = ["S101"] # Allow assertions in test files
+"tests/*.py" = [
+    "S101", # Allow assertions in test files
+    "ARG",  # Allow unused arguments in test files
+]
+"typing.py" = ["A005"] # Ignore built-in name 'typing' in typing.py
+"manage.py" = ["S"] # Ignore security warnings in Django manage.py
+"settings*.py" = [
+    "S",      # Ignore security warnings in settings
+    "F403",   # Ignore 'import *' in settings
+    "F405",   # Ignore undefined name from * imports
+    "TID252", # Allow 'import *' in settings
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.ruff.lint.isort]
+known-first-party = ["tutorial"]
+known-third-party = ["django"]
+section-order = [
+    "future",
+    "standard-library",
+    "third-party",
+    "first-party",
+    "local-folder",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pylint]
+max-args = 6
+max-branches = 12
+max-returns = 6
+max-statements = 50
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "double"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+
+[tool.mypy]
+python_version = "3.13"
+plugins = ["mypy_django_plugin.main"]
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+disallow_untyped_decorators = false
+check_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+strict_optional = true
+disable_error_code = ["type-arg"]
+
+[[tool.mypy.overrides]]
+module = "*.migrations.*"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "manage"
+ignore_errors = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disable_error_code = ["import-not-found", "no-untyped-def"]
+
+[tool.django-stubs]
+django_settings_module = "tutorial.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tutorial.settings"
+python_files = ["test_*.py", "*_test.py"]
+testpaths = ["tests"]
